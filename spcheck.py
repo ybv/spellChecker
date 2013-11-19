@@ -1,4 +1,8 @@
 import itertools
+import re
+
+VOWELS = "aeiou"
+RE_VOWEL = re.compile("[%s]" % VOWELS)
 
 def dictLoad():
 	filew = open('words.txt', 'r+b')
@@ -43,6 +47,18 @@ def rec_dubz(prev, seq, allowed='aeiou'):
         solutions += rec_dubz(prev + seq[0][0] * 2, seq[1:], allowed=allowed)
     return solutions
 
+
+def helper(parts):
+    if len(parts) == 1:
+        yield parts[0]
+    else:
+        for vowel in VOWELS:
+            for item in helper([vowel.join(parts[:2])] + parts[2:]):
+                yield item
+
+def vowels(word):
+    parts = re.split(RE_VOWEL, word)
+    return list(helper(parts))	
 def main():
 	
 	while 1:
@@ -64,7 +80,13 @@ def main():
 				for p in poss_dups:
 					if check_presence(p):
 						got =1
-						print p 
+						print p
+				if got==0:
+					for p in poss_dups:
+						for w in vowels(p):
+							if check_presence(w):
+								print w
+						
 										
 
 
