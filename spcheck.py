@@ -1,5 +1,6 @@
 import itertools
 import re
+import validator
 
 VOWELS = "aeiou"
 RE_VOWEL = re.compile("[%s]" % VOWELS)
@@ -38,7 +39,7 @@ def possibile_dups(dupchk):
 			char_counts.append([k, 1])
 	return rec_dubz('', char_counts, allowed=allowed)
 
-#http://stackoverflow.com/a/6733563
+
 def rec_dubz(prev, seq, allowed='aeiou'):
     if not seq:
         return [prev]
@@ -59,11 +60,43 @@ def helper(parts):
 def vowels(word):
     parts = re.split(RE_VOWEL, word)
     return list(helper(parts))	
+
+def validate(ipst):
+	for inputstr in ipst:
+		got =0
+		if check_presence(inputstr):
+			got =1
+			print inputstr
+			if got==0:
+				extr_unique = extract_unique(inputstr)
+				if check_presence(extr_unique):
+					got =1
+					print extr_unique
+				if got==0:
+					poss_dups = possibile_dups(inputstr)
+					for p in poss_dups:
+						if check_presence(p):
+							got =1
+							print p
+					if got==0:
+						for p in poss_dups:
+							for w in vowels(p):
+								if check_presence(w):
+									got =1
+									print w
+									break
+				if got==0:
+					print inputstr
+					print "NO SUGGESTION"
 def main():
 	
 	while 1:
 		inputstr =raw_input("> ").lower()
 		if 'exit()' in inputstr:
+			break
+		elif 'validate()' in inputstr:
+			ipst=validator.main()
+			validate(ipst)
 			break
 		else:
 			got =0
@@ -85,15 +118,13 @@ def main():
 					for p in poss_dups:
 						for w in vowels(p):
 							if check_presence(w):
+								got =1
 								print w
-						
+								break
+			if got==0:
+				print "NO SUGGESTION"
+
 										
-
-
-
-
-			
-
 
 if __name__ == '__main__':
     main()
