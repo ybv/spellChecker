@@ -1,7 +1,8 @@
 import itertools
 import re
 import validator
-
+#http://stackoverflow.com/a/6733563
+#http://stackoverflow.com/a/13280796
 VOWELS = "aeiou"
 RE_VOWEL = re.compile("[%s]" % VOWELS)
 
