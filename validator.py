@@ -9,6 +9,7 @@ def random_uppers(string):
 	upperlist =[]
 	l = len(string)
 	newstring=string
+	upperlist.append(newstring)
 	rand_index = random.sample(xrange(l), l-1)
 	for r in rand_index:
 		newstring = newstring[:r]+newstring[r].upper()+newstring[r+1:]

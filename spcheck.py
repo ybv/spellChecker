@@ -65,65 +65,77 @@ def vowels(word):
 def validate(ipst):
 	for inputstr in ipst:
 		got =0
+		inputstr = inputstr.lower()
 		if check_presence(inputstr):
 			got =1
 			print inputstr
-			if got==0:
-				extr_unique = extract_unique(inputstr)
-				if check_presence(extr_unique):
+			continue
+			
+		extr_unique = extract_unique(inputstr)
+		if check_presence(extr_unique):
+			got =1
+			print extr_unique
+			continue
+
+		poss_dups = possibile_dups(inputstr)
+		for p in poss_dups:
+			if check_presence(p):
+				got =1
+				print p
+				break
+				
+		for p in poss_dups:
+			for w in vowels(p):
+				if check_presence(w) and got==0:
 					got =1
-					print extr_unique
-				if got==0:
-					poss_dups = possibile_dups(inputstr)
-					for p in poss_dups:
-						if check_presence(p):
-							got =1
-							print p
-					if got==0:
-						for p in poss_dups:
-							for w in vowels(p):
-								if check_presence(w):
-									got =1
-									print w
-									break
-				if got==0:
-					print inputstr
-					print "NO SUGGESTION"
+					print w
+					break
+		if got ==0:
+			print "NO SUGGESTION"
+			continue
 def main():
-	
+	print "Options: 1) Enter a word to check its  best spelling suggestion"
+	print "2) Enter validate() to validate an input"
+	print "3) Enter exit() to exit the program"
 	while 1:
+		got =0
+		
 		inputstr =raw_input("> ").lower()
 		if 'exit()' in inputstr:
 			break
 		elif 'validate()' in inputstr:
 			ipst=validator.main()
 			validate(ipst)
-			break
+			continue
 		else:
-			got =0
+
 			if check_presence(inputstr):
 				got =1
 				print inputstr
-			if got==0:
-				extr_unique = extract_unique(inputstr)
-				if check_presence(extr_unique):
+				continue
+			
+			extr_unique = extract_unique(inputstr)
+			if check_presence(extr_unique):
+				got =1
+				print extr_unique
+				continue
+
+			poss_dups = possibile_dups(inputstr)
+			for p in poss_dups:
+				if check_presence(p):
 					got =1
-					print extr_unique
-			if got==0:
-				poss_dups = possibile_dups(inputstr)
-				for p in poss_dups:
-					if check_presence(p):
+					print p
+					break
+				
+			for p in poss_dups:
+				for w in vowels(p):
+					if check_presence(w) and got==0:
 						got =1
-						print p
-				if got==0:
-					for p in poss_dups:
-						for w in vowels(p):
-							if check_presence(w):
-								got =1
-								print w
-								break
-			if got==0:
-				print "NO SUGGESTION"
+						print w
+						break
+		if got ==0:
+			print "NO SUGGESTION"
+			continue
 
 										
 
