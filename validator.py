@@ -4,8 +4,7 @@ import re
 
 VOWELS = "aeiou"
 RE_VOWEL = re.compile("[%s]" % VOWELS)
-#http://stackoverflow.com/a/6733563
-#http://stackoverflow.com/a/13280796
+
 def random_uppers(string):
 	upperlist =[]
 	l = len(string)
@@ -39,7 +38,7 @@ def helper(parts):
             for item in helper([vowel.join(parts[:2])] + parts[2:]):
                 yield item
 
-def misplet_vowels(word):
+def misp_vowels(word):
 	parts = re.split(RE_VOWEL, word)
 	return list(helper(parts))	
 
@@ -49,8 +48,8 @@ def main():
 	suggests =[]
 	test_uppers = random_uppers(word)
 	test_repeats = random_repeats(word)
-	test_mispelt_vowels = misplet_vowels(word)
-	for item in itertools.chain(test_uppers,test_repeats,test_mispelt_vowels):
+	test_misp_vowels = misp_vowels(word)
+	for item in itertools.chain(test_uppers,test_repeats,test_misp_vowels):
 		suggests.append(item)
 	print "Generated test cases"
 	print suggests
